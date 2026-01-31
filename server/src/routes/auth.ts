@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { AuthService } from '../services/authService';
+import { AuthRequest, authenticate } from '../middleware/auth';
 import { z } from 'zod';
 
 const router = Router();
@@ -65,6 +66,28 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
     res.status(401).json({
       success: false,
       message: error instanceof Error ? error.message : 'Login failed',
+    });
+  }
+});
+
+router.get('/me', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      res.status(401).json({ success: false, message: 'Authentication required' });
+      return;
+    }
+
+    const user = await AuthService.getCurrentUser(userId);
+
+    res.status(200).json({
+      success: true,
+      data: { user },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to get user',
     });
   }
 });

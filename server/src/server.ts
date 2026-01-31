@@ -5,9 +5,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { config } from './config';
-import { errorHandler } from './middleware/errorHandler';
-import { logger } from './middleware/logger';
+import { setupSocketEvents } from './config/socket';
 import routes from './routes';
+import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -30,7 +30,6 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(logger);
 
 app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
@@ -38,18 +37,11 @@ app.get('/health', (_req, res) => {
 
 app.use('/api', routes);
 
-io.on('connection', (socket) => {
-  console.info(`Client connected: ${socket.id}`);
-
-  socket.on('disconnect', () => {
-    console.info(`Client disconnected: ${socket.id}`);
-  });
-});
+setupSocketEvents(io);
 
 app.use(errorHandler);
 
-const PORT = config.port;
-const SOCKET_PORT = config.socketPort || PORT;
+const SOCKET_PORT = config.socketPort || config.port;
 
 httpServer.listen(SOCKET_PORT, () => {
   console.info(`Server running on port ${SOCKET_PORT}`);

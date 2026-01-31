@@ -3,15 +3,19 @@ export interface User {
   username: string;
   email: string;
   password_hash: string;
+  avatar_url?: string;
   created_at: Date;
   updated_at: Date;
 }
 
 export interface UserProfile {
   user_id: string;
-  display_name: string;
+  display_name?: string;
   avatar?: string;
   bio?: string;
+  total_matches?: number;
+  total_wins?: number;
+  mmr?: number;
   created_at: Date;
   updated_at: Date;
 }
@@ -27,7 +31,12 @@ export interface AuthToken {
 export interface GameSession {
   id: string;
   status: 'waiting' | 'in_progress' | 'finished';
+  team_a_ids: string[];
+  team_b_ids: string[];
+  winner_team?: 'team_a' | 'team_b' | 'draw';
+  map_id?: string;
   created_at: Date;
+  started_at?: Date;
   finished_at?: Date;
 }
 
@@ -36,7 +45,11 @@ export interface PlayerStats {
   matches_played: number;
   wins: number;
   losses: number;
-  rank_points: number;
+  kills_total?: number;
+  deaths_total?: number;
+  win_rate?: number;
+  current_mmr?: number;
+  most_played_character_id?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -54,4 +67,5 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   message?: string;
   error?: string;
+  errors?: any[];
 }

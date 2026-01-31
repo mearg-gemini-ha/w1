@@ -71,4 +71,17 @@ export class AuthService {
       token,
     };
   }
+
+  static async getCurrentUser(userId: string) {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+  }
 }
