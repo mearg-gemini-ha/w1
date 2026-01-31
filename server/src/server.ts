@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { config } from './config';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './middleware/logger';
+import routes from './routes';
 
 dotenv.config();
 
@@ -34,6 +35,8 @@ app.use(logger);
 app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+app.use('/api', routes);
 
 io.on('connection', (socket) => {
   console.info(`Client connected: ${socket.id}`);

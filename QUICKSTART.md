@@ -47,7 +47,12 @@ The default values should work for local development.
 # Create the database
 createdb w_game_db
 
-# Run migrations
+# Quick way - Run all migrations at once
+cd server/migrations
+./run-all.sh postgresql://user:password@localhost:5432/w_game_db
+cd ../..
+
+# Or manually run each migration
 cd server
 psql $DATABASE_URL -f migrations/001_create_users_table.sql
 psql $DATABASE_URL -f migrations/002_create_user_profiles_table.sql

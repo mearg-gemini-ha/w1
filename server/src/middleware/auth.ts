@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { config } from '../config';
+import { AuthService } from '../services/authService';
 
 export interface AuthRequest extends Request {
-  user?: {
-    userId: string;
-    email: string;
-  };
+  userId?: string;
 }
 
-export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
+export const authenticate = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -19,12 +19,9 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     }
 
     const token = authHeader.substring(7);
-    const decoded = jwt.verify(token, config.jwtSecret) as {
-      userId: string;
-      email: string;
-    };
+    const decoded = AuthService.verifyToken(token);
 
-    req.user = decoded;
+    req.userId = decoded.userId;
     next();
   } catch (error) {
     res.status(401).json({ success: false, message: 'Invalid token' });

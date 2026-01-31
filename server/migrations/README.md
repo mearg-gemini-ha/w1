@@ -4,7 +4,25 @@ This folder contains SQL migration files for the W Game database schema.
 
 ## Running Migrations
 
-### Using psql
+### Quick Start - Run All Migrations
+
+```bash
+# Set your database URL
+export DATABASE_URL="postgresql://user:password@localhost:5432/w_game_db"
+
+# Run all migrations
+cd server/migrations
+./run-all.sh
+```
+
+Or with inline DATABASE_URL:
+
+```bash
+cd server/migrations
+./run-all.sh postgresql://user:password@localhost:5432/w_game_db
+```
+
+### Manual - Using psql
 
 ```bash
 # Connect to your PostgreSQL database
@@ -19,16 +37,15 @@ psql $DATABASE_URL
 \i migrations/006_create_characters_table.sql
 ```
 
-### Using node-pg-migrate (recommended for production)
+### Using Command Line
 
 ```bash
-npm install -g node-pg-migrate
-
-# Create a new migration
-node-pg-migrate create migration-name
-
-# Run all pending migrations
-node-pg-migrate up
+psql $DATABASE_URL -f migrations/001_create_users_table.sql
+psql $DATABASE_URL -f migrations/002_create_user_profiles_table.sql
+psql $DATABASE_URL -f migrations/003_create_auth_tokens_table.sql
+psql $DATABASE_URL -f migrations/004_create_game_sessions_table.sql
+psql $DATABASE_URL -f migrations/005_create_player_stats_table.sql
+psql $DATABASE_URL -f migrations/006_create_characters_table.sql
 ```
 
 ## Migration Order
