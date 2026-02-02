@@ -41,6 +41,10 @@ const MatchmakingPage = () => {
 
   useEffect(() => {
     if (matchFound) {
+      localStorage.setItem(
+        'lastMatch',
+        JSON.stringify({ sessionId: matchFound.sessionId, team: matchFound.yourTeam })
+      );
       navigate(`/game/${matchFound.sessionId}`);
     }
   }, [matchFound, navigate]);
