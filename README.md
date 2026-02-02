@@ -281,9 +281,9 @@ This project is licensed under the MIT License.
 
 ## 🛣️ Roadmap
 
-- [ ] Phase 1: Foundation (Current)
-- [ ] Phase 2: Authentication & User Management
-- [ ] Phase 3: Matchmaking System
+- [x] Phase 1: Foundation
+- [x] Phase 2: Authentication & User Management
+- [x] Phase 3: Matchmaking System
 - [ ] Phase 4: Game Engine & Physics
 - [ ] Phase 5: Character System
 - [ ] Phase 6: Combat Mechanics

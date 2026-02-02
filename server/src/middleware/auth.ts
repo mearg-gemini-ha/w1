@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/authService';
 
 export interface AuthRequest extends Request {
+  user?: {
+    userId: string;
+  };
   userId?: string;
 }
 
@@ -22,8 +25,11 @@ export const authenticate = async (
     const decoded = AuthService.verifyToken(token);
 
     req.userId = decoded.userId;
+    req.user = { userId: decoded.userId };
     next();
   } catch (error) {
     res.status(401).json({ success: false, message: 'Invalid token' });
   }
 };
+
+export const authenticateToken = authenticate;
