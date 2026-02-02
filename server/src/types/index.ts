@@ -49,6 +49,28 @@ export interface Character {
   created_at: Date;
 }
 
+export interface GameSessionPlayer {
+  id: string;
+  game_session_id: string;
+  user_id: string;
+  team: 'A' | 'B';
+  joined_at: Date;
+}
+
+export interface MatchmakingPlayer {
+  userId: string;
+  username: string;
+  rankPoints: number;
+  socketId: string;
+  joinedQueueAt: Date;
+}
+
+export interface MatchFound {
+  sessionId: string;
+  teamA: MatchmakingPlayer[];
+  teamB: MatchmakingPlayer[];
+}
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;

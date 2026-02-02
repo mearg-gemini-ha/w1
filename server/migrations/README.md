@@ -35,6 +35,7 @@ psql $DATABASE_URL
 \i migrations/004_create_game_sessions_table.sql
 \i migrations/005_create_player_stats_table.sql
 \i migrations/006_create_characters_table.sql
+\i migrations/007_create_game_session_players_table.sql
 ```
 
 ### Using Command Line
@@ -46,6 +47,7 @@ psql $DATABASE_URL -f migrations/003_create_auth_tokens_table.sql
 psql $DATABASE_URL -f migrations/004_create_game_sessions_table.sql
 psql $DATABASE_URL -f migrations/005_create_player_stats_table.sql
 psql $DATABASE_URL -f migrations/006_create_characters_table.sql
+psql $DATABASE_URL -f migrations/007_create_game_session_players_table.sql
 ```
 
 ## Migration Order
@@ -58,6 +60,7 @@ Migrations must be run in numerical order to maintain referential integrity:
 4. `004_create_game_sessions_table.sql` - Game session tracking
 5. `005_create_player_stats_table.sql` - Player statistics and rankings
 6. `006_create_characters_table.sql` - Game characters
+7. `007_create_game_session_players_table.sql` - Junction table for players in game sessions
 
 ## Schema Overview
 
@@ -67,3 +70,4 @@ Migrations must be run in numerical order to maintain referential integrity:
 - **game_sessions**: Real-time game session management
 - **player_stats**: Player performance metrics and ranking
 - **characters**: Available game characters and their properties
+- **game_session_players**: Junction table linking players to game sessions with team assignments

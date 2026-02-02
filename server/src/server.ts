@@ -8,6 +8,7 @@ import { config } from './config';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './middleware/logger';
 import routes from './routes';
+import { setupMatchmakingHandlers } from './sockets/matchmakingHandlers';
 
 dotenv.config();
 
@@ -40,6 +41,8 @@ app.use('/api', routes);
 
 io.on('connection', (socket) => {
   console.info(`Client connected: ${socket.id}`);
+
+  setupMatchmakingHandlers(io, socket);
 
   socket.on('disconnect', () => {
     console.info(`Client disconnected: ${socket.id}`);
