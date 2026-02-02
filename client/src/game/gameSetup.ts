@@ -1,7 +1,15 @@
 import Phaser from 'phaser';
-import { MainScene } from './scenes/MainScene';
+import { GameScene } from './scenes/GameScene';
+import { setGameContext } from './gameContext';
 
-export const initGame = (parent: HTMLElement): Phaser.Game => {
+export const initGame = (
+  parent: HTMLElement,
+  sessionId: string,
+  userId: string,
+  team?: 'A' | 'B'
+): Phaser.Game => {
+  setGameContext({ sessionId, userId, team });
+
   const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: 1280,
@@ -14,7 +22,7 @@ export const initGame = (parent: HTMLElement): Phaser.Game => {
         debug: false,
       },
     },
-    scene: [MainScene],
+    scene: [GameScene],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,

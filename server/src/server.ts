@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { logger } from './middleware/logger';
 import routes from './routes';
 import { setupMatchmakingHandlers } from './sockets/matchmakingHandlers';
+import { setupGameHandlers } from './sockets/gameHandlers';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ io.on('connection', (socket) => {
   console.info(`Client connected: ${socket.id}`);
 
   setupMatchmakingHandlers(io, socket);
+  setupGameHandlers(io, socket);
 
   socket.on('disconnect', () => {
     console.info(`Client disconnected: ${socket.id}`);
